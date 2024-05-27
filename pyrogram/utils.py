@@ -69,7 +69,7 @@ def get_input_media_from_file_id(
                 access_hash=decoded.access_hash,
                 file_reference=decoded.file_reference
             ),
-            spoiler=has_spoiler,⁶
+            spoiler=has_spoiler,
             ttl_seconds=ttl_seconds
         )
 
