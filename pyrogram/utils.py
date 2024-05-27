@@ -86,7 +86,8 @@ def get_input_media_from_file_id(
     raise ValueError(f"Unknown file id: {file_id}")
 
 
-client,
+async def parse_messages(
+    client,
     messages: "raw.types.messages.Messages",
     replies: int = 1,
     business_connection_id: str = None
@@ -101,7 +102,17 @@ client,
     parsed_messages = []
 
     for message in messages.messages:
-        parsed_messages.append(await types.Message._parse(client, message, users, chats, replies=0, business_connection_id=business_connection_id))
+        parsed_messages.append(
+            await types.Message._parse(
+                client,
+                message,
+                users,
+                chats,
+                topics,
+                replies=0,
+                business_connection_id=business_connection_id
+            )
+        )
 
     if replies:
         messages_with_replies = {
@@ -109,12 +120,13 @@ client,
             for i in messages.messages
             if not isinstance(i, raw.types.MessageEmpty) and i.reply_to and isinstance(i.reply_to, raw.types.MessageReplyHeader)
         }
-        
+
         message_reply_to_story = {
             i.id: {'user_id': i.reply_to.user_id, 'story_id': i.reply_to.story_id}
             for i in messages.messages
             if not isinstance(i, raw.types.MessageEmpty) and i.reply_to and isinstance(i.reply_to, raw.types.MessageReplyStoryHeader)
         }
+
         if messages_with_replies:
             # We need a chat id, but some messages might be empty (no chat attribute available)
             # Scan until we find a message with a chat available (there must be one, because we are fetching replies)
@@ -162,7 +174,7 @@ client,
                 reply_to = messages_with_replies.get(message.id, None)
                 if not reply_to:
                     continue
-                  
+
                 reply_id = reply_to.reply_to_msg_id
 
                 for reply in reply_messages:
