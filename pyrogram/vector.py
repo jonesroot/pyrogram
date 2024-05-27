@@ -17,12 +17,12 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from io import BytesIO
-from typing import cast, Union, Any
+from typing import Any, Union, cast
 
-from .bool import BoolFalse, BoolTrue, Bool
-from .int import Int, Long
 from ..list import List
 from ..tl_object import TLObject
+from .bool import Bool, BoolFalse, BoolTrue
+from .int import Int, Long
 
 
 class Vector(bytes, TLObject):
@@ -35,7 +35,7 @@ class Vector(bytes, TLObject):
         if size == 4:
             e = int.from_bytes(b.read(4), "little")
             b.seek(-4, 1)
-            
+
             if e in {BoolFalse.ID, BoolTrue.ID}:
                 return Bool.read(b)
 
@@ -54,9 +54,7 @@ class Vector(bytes, TLObject):
         data.seek(-left, 1)
 
         return List(
-            t.read(data) if t
-            else Vector.read_bare(data, size)
-            for _ in range(count)
+            t.read(data) if t else Vector.read_bare(data, size) for _ in range(count)
         )
 
     def __new__(cls, value: list, t: Any = None) -> bytes:  # type: ignore

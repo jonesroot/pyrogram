@@ -17,10 +17,10 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Union, List
+from typing import List, Union
 
 import pyrogram
-from pyrogram import types, utils, raw
+from pyrogram import raw, types, utils
 
 
 class CopyMediaGroup:
@@ -81,7 +81,7 @@ class CopyMediaGroup:
                 await app.copy_media_group(to_chat, from_chat, 123)
 
                 await app.copy_media_group(to_chat, from_chat, 123, captions="single caption")
-                
+
                 await app.copy_media_group(to_chat, from_chat, 123,
                     captions=["caption 1", None, ""])
         """
@@ -107,10 +107,22 @@ class CopyMediaGroup:
                     media=media,
                     random_id=self.rnd_id(),
                     **await self.parser.parse(
-                        captions[i] if isinstance(captions, list) and i < len(captions) and captions[i] else
-                        captions if isinstance(captions, str) and i == 0 else
-                        message.caption if message.caption and message.caption != "None" and not type(
-                            captions) is str else "")
+                        captions[i]
+                        if isinstance(captions, list)
+                        and i < len(captions)
+                        and captions[i]
+                        else (
+                            captions
+                            if isinstance(captions, str) and i == 0
+                            else (
+                                message.caption
+                                if message.caption
+                                and message.caption != "None"
+                                and not type(captions) is str
+                                else ""
+                            )
+                        )
+                    )
                 )
             )
 
@@ -120,21 +132,29 @@ class CopyMediaGroup:
                 multi_media=multi_media,
                 silent=disable_notification or None,
                 reply_to_msg_id=reply_to_message_id,
-                schedule_date=utils.datetime_to_timestamp(schedule_date)
+                schedule_date=utils.datetime_to_timestamp(schedule_date),
             ),
-            sleep_threshold=60
+            sleep_threshold=60,
         )
 
         return await utils.parse_messages(
             self,
             raw.types.messages.Messages(
-                messages=[m.message for m in filter(
-                    lambda u: isinstance(u, (raw.types.UpdateNewMessage,
-                                             raw.types.UpdateNewChannelMessage,
-                                             raw.types.UpdateNewScheduledMessage)),
-                    r.updates
-                )],
+                messages=[
+                    m.message
+                    for m in filter(
+                        lambda u: isinstance(
+                            u,
+                            (
+                                raw.types.UpdateNewMessage,
+                                raw.types.UpdateNewChannelMessage,
+                                raw.types.UpdateNewScheduledMessage,
+                            ),
+                        ),
+                        r.updates,
+                    )
+                ],
                 users=r.users,
-                chats=r.chats
-            )
+                chats=r.chats,
+            ),
         )

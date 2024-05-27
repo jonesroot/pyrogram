@@ -19,7 +19,7 @@
 import re
 from sys import argv
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 from compiler.api import compiler as api_compiler
 from compiler.errors import compiler as errors_compiler
@@ -70,7 +70,7 @@ setup(
         "Topic :: Communications :: Chat",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Software Development :: Libraries :: Application Frameworks"
+        "Topic :: Software Development :: Libraries :: Application Frameworks",
     ],
     keywords="telegram chat messenger mtproto api client library python",
     project_urls={
@@ -85,5 +85,5 @@ setup(
     },
     packages=find_packages(exclude=["compiler*", "tests*"]),
     zip_safe=False,
-    install_requires=requires
+    install_requires=requires,
 )

@@ -96,6 +96,6 @@ class Chats(
     GetChatOnlineCount,
     GetSendAsChats,
     SetSendAsChat,
-    SetChatProtectedContent
+    SetChatProtectedContent,
 ):
     pass
