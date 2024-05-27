@@ -47,7 +47,7 @@ setup(
     download_url="https://github.com/pyrogram/pyrogram/releases/latest",
     author="Dan",
     author_email="dan@pyrogram.org",
-    developer="Lucifer"
+    developer="Lucifer",
     license="LGPLv3",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
