@@ -86,13 +86,14 @@ def get_input_media_from_file_id(
     raise ValueError(f"Unknown file id: {file_id}")
 
 
-async def parse_messages(
-    client,
+client,
     messages: "raw.types.messages.Messages",
-    replies: int = 1
+    replies: int = 1,
+    business_connection_id: str = None
 ) -> List["types.Message"]:
     users = {i.id: i for i in messages.users}
     chats = {i.id: i for i in messages.chats}
+    topics = {i.id: i for i in messages.topics} if hasattr(messages, "topics") else None
 
     if not messages.messages:
         return types.List()
