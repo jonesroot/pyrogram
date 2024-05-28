@@ -19,7 +19,8 @@
 from datetime import datetime
 from typing import Optional
 
-from pyrogram import types, raw, utils
+from pyrogram import raw, types, utils
+
 from ..object import Object
 
 
@@ -65,9 +66,7 @@ class BusinessConnection(Object):
 
     @staticmethod
     def _parse(
-        client,
-        connection: "raw.types.BotBusinessConnection" = None,
-        users = {}
+        client, connection: "raw.types.BotBusinessConnection" = None, users={}
     ) -> Optional["BusinessConnection"]:
         if not connection:
             return None
@@ -78,5 +77,5 @@ class BusinessConnection(Object):
             dc_id=connection.dc_id,
             date=utils.timestamp_to_datetime(connection.date),
             can_reply=getattr(connection, "can_reply", None),
-            disabled=getattr(connection, "disabled", None)
+            disabled=getattr(connection, "disabled", None),
         )
