@@ -236,6 +236,17 @@ def get_peer_id(peer: raw.base.Peer) -> int:
 
 
 def get_peer_type(peer_id: int) -> str:
+    peer_id_str = str(peer_id)
+    if not peer_id_str.startswith("-"):
+        return "user"
+    elif peer_id_str.startswith("-100"):
+        return "channel"
+    else:
+        return "chat"
+        
+        
+'''
+def get_peer_type(peer_id: int) -> str:
     if peer_id < 0:
         if MIN_CHAT_ID <= peer_id:
             return "chat"
@@ -246,6 +257,7 @@ def get_peer_type(peer_id: int) -> str:
         return "user"
 
     raise ValueError(f"Peer id invalid: {peer_id}")
+'''
 
 
 def get_channel_id(peer_id: int) -> int:
