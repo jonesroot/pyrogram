@@ -68,6 +68,11 @@ jobs:
           make venv
           make api
 
+      - name: Fix permissions
+        run: |
+          chown -R $(whoami) /github/home/.cache/pip || true
+
       - name: Run tests
         run: |
           tox
+          
