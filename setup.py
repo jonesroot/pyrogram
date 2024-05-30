@@ -38,15 +38,15 @@ if len(argv) > 1 and argv[1] in ["bdist_wheel", "install", "develop"]:
     errors_compiler.start()
 
 setup(
-    name="Pyrogram-Gokil",
+    name="Pyrogram",
     version=version,
     description="Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="https://github.com/jonesroot",
-    download_url="https://github.com/jonesroot/pyrogram/releases/latest",
-    author="Unknown",
-    author_email="Unknown@home",
+    url="https://github.com/pyrogram",
+    download_url="https://github.com/pyrogram/pyrogram/latest/release",
+    author="Dan",
+    author_email="dan@pyrogram.org",
     license="LGPLv3",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
